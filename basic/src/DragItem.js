@@ -1,26 +1,17 @@
-import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-import { DragSource } from 'react-dnd';
-import './DragItem.css';
+import React from "react";
+import { useDrag } from "react-dnd";
+import "./DragItem.css";
 
-class DragItem extends PureComponent {
-  static propTypes = {
-    label: PropTypes.string.isRequired
-  };
+const DragItem = ({ label }) => {
+  const [collected, drag, dragPreview] = useDrag(() => ({
+    type: "foo",
+    item: {},
+  }));
+  return (
+    <div className="DragItem" ref={drag}>
+      {label}
+    </div>
+  );
+};
 
-  render() {
-    return this.props.dragSource(<div className="DragItem">{this.props.label}</div>);
-  }
-}
-
-export default DragSource(
-  'foo',
-  {
-    beginDrag() {
-      return {};
-    }
-  },
-  connect => ({
-    dragSource: connect.dragSource()
-  })
-)(DragItem);
+export default DragItem;
